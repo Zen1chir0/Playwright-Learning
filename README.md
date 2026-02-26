@@ -1,2 +1,4 @@
-# Playwright-Learning
-An environment for my automation journey.
+# Playwright Learning Lab
+My journey into automated testing.
+## How to run
+`npx playwright test`
