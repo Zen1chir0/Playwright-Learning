@@ -37,5 +37,5 @@ test.describe('End to end test', () => {
     });
 })
 
-//Completed it but I feel un impressed, all i did was direct things. never really coded it in a way thats innovative. this is just cluttered.
-//I discovered POM, a structured and cleaner way of implementating testing. I'll try to refactor this in POM.
+//Completed it, I feel unimpressed, all i did was direct things. never really coded it in a way thats innovative. this is just cluttered.
+//I discovered POM, a structured and cleaner way of implementating testing. I'll try to refactor the login(for now) in POM.
