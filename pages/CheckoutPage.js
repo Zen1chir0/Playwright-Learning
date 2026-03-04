@@ -4,7 +4,7 @@ class CheckoutPage {
         this.checkoutBtn = page.getByRole('button', { name: 'Checkout' });
     }
 
-    async checkout() {
+    async clickCheckout() {
         await this.checkoutBtn.click();
     }
 }
