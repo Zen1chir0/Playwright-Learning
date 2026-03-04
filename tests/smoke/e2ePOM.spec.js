@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import LoginPage from '../pages/LoginPage.js';
-import InventoryPage from '../pages/InventoryPage.js';
-import CheckoutPage from '../pages/CheckoutPage.js';
-import CheckoutStep1Page from '../pages/CheckoutStep1.js';
+import LoginPage from '../../pages/LoginPage.js';
+import InventoryPage from '../../pages/InventoryPage.js';
+import CheckoutPage from '../../pages/CheckoutPage.js';
+import CheckoutStep1Page from '../../pages/CheckoutStep1.js';
 import dotenv from 'dotenv'
 
 dotenv.config();//implemented this game changer because credentials are sensitive data haha
