@@ -3,6 +3,7 @@ import LoginPage from '../../pages/LoginPage.js';
 import InventoryPage from '../../pages/InventoryPage.js';
 import CheckoutPage from '../../pages/CheckoutPage.js';
 import CheckoutStep1Page from '../../pages/CheckoutStep1.js';
+import CheckoutStep2Page from '../../pages/CheckoutStep2.js';
 import dotenv from 'dotenv'
 
 dotenv.config();//implemented this game changer because credentials are sensitive data haha
@@ -12,12 +13,14 @@ test.describe('should the login page allow login', () => {
     let inventoryPage;
     let checkoutPage;
     let checkoutStep1Page;
+    let checkoutStep2Page;
 
     test.beforeEach(async ({ page }) => {
         loginPage = new LoginPage(page);
         inventoryPage = new InventoryPage(page);
         checkoutPage = new CheckoutPage(page);
         checkoutStep1Page = new CheckoutStep1Page(page);
+        checkoutStep2Page = new CheckoutStep2Page(page);
 
         await loginPage.login( process.env.USER, process.env.PASS);
     });
@@ -54,10 +57,15 @@ test.describe('should the login page allow login', () => {
 
         await test.step('Checkout path', async () => {
           await expect(page).toHaveURL(/checkout-step-one.html/i);
-
           await checkoutStep1Page.checkOut(process.env.FIRST, process.env.LAST, process.env.PC);
 
         });
+
+        await test.step('Finish path', async () => {
+            await expect(page).toHaveURL(/checkout-step-two.html/i);
+
+            await checkoutStep2Page.finish();
+        }) 
 
 
 
