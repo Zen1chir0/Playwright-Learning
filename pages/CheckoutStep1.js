@@ -8,9 +8,9 @@ class CheckoutStep1 {
     }
 
     async checkOut (firstName, lastName, postalCode) {
-        await this.firstName.fill('firstName');
-        await this.lastName.fill('lastName');
-        await this.postalCode.fill('postalCode');
+        await this.firstName.fill(firstName);
+        await this.lastName.fill(lastName);
+        await this.postalCode.fill(postalCode);
         await this.continue.click();
     }
 }

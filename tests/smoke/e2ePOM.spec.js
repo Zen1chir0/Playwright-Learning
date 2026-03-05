@@ -63,7 +63,6 @@ test.describe('should the login page allow login', () => {
 
         await test.step('Finish path', async () => {
             await expect(page).toHaveURL(/checkout-step-two.html/i);
-
             await checkoutStep2Page.finish();
         }) 
 
