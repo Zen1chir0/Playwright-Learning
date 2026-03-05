@@ -1,4 +1,4 @@
-class CheckoutStep1 {
+class CheckoutStep1Page {
     constructor(page) {
         this.page = page;
         this.firstName = page.locator('[data-test="firstName"]');
@@ -15,4 +15,4 @@ class CheckoutStep1 {
     }
 }
 
-export default CheckoutStep1;
+export default CheckoutStep1Page;
