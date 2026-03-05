@@ -22,7 +22,7 @@ test.describe('should the login page allow login', () => {
         checkoutStep1Page = new CheckoutStep1Page(page);
         checkoutStep2Page = new CheckoutStep2Page(page);
 
-        await loginPage.login( process.env.USER, process.env.PASS);
+        await loginPage.login(process.env.USER, process.env.PASS);
     });
 
     /*
