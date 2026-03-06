@@ -3,9 +3,9 @@ class LoginPage {
     constructor (page) {
         this.page = page;
 
-        this.usernameInput = page.getByPlaceholder('Username');
-        this.passwordInput = page.getByPlaceholder('Password');
-        this.loginButton = page.getByRole('button', { name: /Login/i });
+        this.usernameInput = page.locator('[data-test="username"]');
+        this.passwordInput = page.locator('[data-test="password"]');
+        this.loginButton = page.locator('[data-test="login-button"]');
 
          }
         async login (user, pass) {
