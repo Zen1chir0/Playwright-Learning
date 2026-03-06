@@ -37,6 +37,7 @@ I experimented with two different ways of writing tests to see how they perform 
 ### Room for Improvement (My Roadmap)
 * **Self-Healing Selectors:** I plan to start using more resilient locators like `data-test` IDs so the tests don't fail just because a button changed color.
 * **CI/CD Automation:** My next big goal is to set up **GitHub Actions** so these tests run automatically every time I push new code to the repo.
+* **Performance Testing:** Another big goal is implementation of Performance testing using *K6*.
 * **Advanced Refactoring:** I want to move my complex "Helper" logic into separate files to make the framework even cleaner and easier for a team to read.
 
 
