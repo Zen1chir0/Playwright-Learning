@@ -51,7 +51,7 @@ test.describe('should verify prices accuracy', async () =>{
           const uiSubTotalRaw = await checkoutStep2Page.uiSubtotal(); //here we take UI's total but a problem occured, what were getting is a series of strings so...
           const uiSubTotal = parseFloat(uiSubTotalRaw.replace('Item total: $', '')); //we replace the strings from the UI with nothing 
           
-          expect(uiSubTotal).toBe(calculatedSum);//match the two, please note that toBe is a strict equality it checks both the value and type.
+          expect(uiSubTotal).toBe(calculatedSum).console.log('UI subtotal matches with the calculated total');//match the two, please note that toBe is a strict equality it checks both the value and type.
 
           await checkoutStep2Page.finish();//finish here
         });
