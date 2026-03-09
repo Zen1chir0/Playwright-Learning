@@ -9,12 +9,14 @@ class CheckoutStep2Page {
     }
 
     async priceScraper () {
-        const priceStrings = page.locator('[data-test="inventory-item-price"]').allTextContents();
+        const priceStrings = await this.page.locator('[data-test="inventory-item-price"]').allTextContents();
         return priceStrings;
     }
 
     async uiSubtotal() {
-        const subTotalinUI = page.locator('[data-test="subtotal-label"]'[1]);
+        await this.page.locator('[data-test="subtotal-label"]').waitFor({ state: 'visible' });
+    
+        const subTotalinUI = await this.page.locator('[data-test="subtotal-label"]').textContent();
         return subTotalinUI;
     }
 }

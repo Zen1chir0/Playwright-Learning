@@ -5,7 +5,7 @@ import CheckoutPage from '../../pages/CheckoutPage.js';
 import CheckoutStep1Page from '../../pages/CheckoutStep1.js';
 import CheckoutStep2Page from '../../pages/CheckoutStep2.js';
 
-import calculateSubtotal from '../../utils/independent-auditor-utils/auditor.js';
+import { priceArray } from '../../utils/independent-auditor-utils/character-stripper.js';
 
 import dotenv from "dotenv";
 
@@ -17,6 +17,7 @@ test.describe('should verify prices accuracy', async () =>{
     let checkoutPage;
     let checkoutStep1Page;
     let checkoutStep2Page;
+    let rawStrings;
 
     test.beforeEach('should keep logged in and items state intact', async ({ page }) => {
         loginPage = new LoginPage(page);
@@ -37,17 +38,22 @@ test.describe('should verify prices accuracy', async () =>{
         await checkoutStep1Page.checkOut(process.env.FIRST, process.env.LAST, process.env.PC);
 
         await expect(page).toHaveURL(/checkout-step-two.html/i);
-        await checkoutStep2Page.finish();
-
 
     });
 
-    test('should verify subtotal of the items in cart', async ({ page }) => {
-        const rawStrings = checkoutStep2Page.priceScraper();
-        const calculatedSubtotal = calculateSubtotal(rawStrings);
-        const subTotalFromUI = await checkoutStep2Page.uiSubtotal();
+        test('should verify subtotal of the items in cart', async ({ page }) => {
 
-        expect(calculatedSubtotal).toBe(subTotalFromUI);
-    });
+          rawStrings = await checkoutStep2Page.priceScraper(); //Get the raw strings from UI, it is stored inside an array. usage of seprate function from checkoutStep2Page.
+          
+          const cleanedPrices = priceArray(rawStrings); //we'll passs the taken prices which are stored in an array to be cleansed(strip off their $ sign) so we can proceed to add them.
+          const calculatedSum = cleanedPrices.reduce((total, p) => total + p, 0); //we take the cleansed numbers so we can now REDUCE them, in this case reduce them into a single number which is the total.
+          
+          const uiSubTotalRaw = await checkoutStep2Page.uiSubtotal(); //here we take UI's total but a problem occured, what were getting is a series of strings so...
+          const uiSubTotal = parseFloat(uiSubTotalRaw.replace('Item total: $', '')); //we replace the strings from the UI with nothing 
+          
+          expect(uiSubTotal).toBe(calculatedSum);//match the two, please note that toBe is a strict equality it checks both the value and type.
+
+          await checkoutStep2Page.finish();//finish here
+        });
 
 });
