@@ -72,7 +72,7 @@ test.describe('should verify prices accuracy', async () =>{
             const uiTotal = charStripper(uiTotalRaw);
 
             console.log(`Independent Auditor result for Total: ${total} And for the UI Total: ${uiTotal}`);
-            expect(total).toBeCloseTo(uiTotal, 2);;
+            expect(total).toBeCloseTo(uiTotal, 2);
 
             await checkoutStep2Page.finish();//finish here
         })
