@@ -47,7 +47,6 @@ test.describe('should verify prices accuracy', async () =>{
           
           const cleanedPrices = priceArray(rawStrings); //we'll passs the taken prices which are stored in an array to be cleansed(strip off their $ sign) so we can proceed to add them.
           const calculatedSum = arrayAddition(cleanedPrices);
-          
           const uiSubTotalRaw = await checkoutStep2Page.uiSubtotal(); //here we take UI's total but a problem occured, what were getting is a series of strings so...
           const uiSubTotal = parseFloat(uiSubTotalRaw.replace('Item total: $', '')); //we replace the strings from the UI with nothing 
           
@@ -61,7 +60,7 @@ test.describe('should verify prices accuracy', async () =>{
             rawStrings = await checkoutStep2Page.priceScraper();
 
             const cleanedPrices = priceArray(rawStrings);
-            const calculatedSum = ;
+            const calculatedSum = arrayAddition(cleanedPrices);
 
             const tax = await checkoutStep2Page.uiTax();
             const cleanedTax = parseFloat(tax.replace(/[^0-9.]/g, ''));
