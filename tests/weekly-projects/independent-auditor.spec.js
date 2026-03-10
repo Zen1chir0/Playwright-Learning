@@ -5,7 +5,7 @@ import CheckoutPage from '../../pages/CheckoutPage.js';
 import CheckoutStep1Page from '../../pages/CheckoutStep1.js';
 import CheckoutStep2Page from '../../pages/CheckoutStep2.js';
 
-import { priceArray, arrayAddition } from '../../utils/independent-auditor-utils/helpers.js';
+import { charStripper, arrayAddition } from '../../utils/independent-auditor-utils/helpers.js';
 
 import dotenv from "dotenv";
 
@@ -43,13 +43,14 @@ test.describe('should verify prices accuracy', async () =>{
 
         test('should verify subtotal of the items in cart', async ({ page }) => {
 
-          rawStrings = await checkoutStep2Page.priceScraper(); //Get the raw strings from UI, it is stored inside an array. usage of seprate function from checkoutStep2Page.
-          
-          const cleanedPrices = priceArray(rawStrings); //we'll passs the taken prices which are stored in an array to be cleansed(strip off their $ sign) so we can proceed to add them.
+          rawStrings = await checkoutStep2Page.priceScraper(); 
+
+          const cleanedPrices = rawStrings.map(s => charStripper(s));
           const calculatedSum = arrayAddition(cleanedPrices);
-          const uiSubTotalRaw = await checkoutStep2Page.uiSubtotal(); //here we take UI's total but a problem occured, what were getting is a series of strings so...
-          const uiSubTotal = parseFloat(uiSubTotalRaw.replace('Item total: $', '')); //we replace the strings from the UI with nothing 
-          
+
+          const uiSubTotalRaw = await checkoutStep2Page.uiSubtotal(); 
+          const uiSubTotal = charStripper(uiSubTotalRaw); 
+
           console.log(`Independent Auditor result for SubTotal:  ${calculatedSum} And for the UI subtotal: ${uiSubTotal}`);
           expect(calculatedSum).toBeCloseTo(uiSubTotal, 2);
 
@@ -59,16 +60,16 @@ test.describe('should verify prices accuracy', async () =>{
         test('should verify Total, which includes tax', async ({ page }) => {
             rawStrings = await checkoutStep2Page.priceScraper();
 
-            const cleanedPrices = priceArray(rawStrings);
+            const cleanedPrices = rawStrings.map(s => charStripper(s));
             const calculatedSum = arrayAddition(cleanedPrices);
 
             const tax = await checkoutStep2Page.uiTax();
-            const cleanedTax = parseFloat(tax.replace(/[^0-9.]/g, ''));
+            const cleanedTax = charStripper(tax);
 
             const total = cleanedTax + calculatedSum;
             
             const uiTotalRaw = await checkoutStep2Page.uiTotal();
-            const uiTotal = parseFloat(uiTotalRaw.replace(/[^0-9.]/g, ''));
+            const uiTotal = charStripper(uiTotalRaw);
 
             console.log(`Independent Auditor result for Total: ${total} And for the UI Total: ${uiTotal}`);
             expect(total).toBeCloseTo(uiTotal, 2);;
@@ -77,3 +78,4 @@ test.describe('should verify prices accuracy', async () =>{
         })
 
 });
+
