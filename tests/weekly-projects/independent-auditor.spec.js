@@ -51,9 +51,30 @@ test.describe('should verify prices accuracy', async () =>{
           const uiSubTotalRaw = await checkoutStep2Page.uiSubtotal(); //here we take UI's total but a problem occured, what were getting is a series of strings so...
           const uiSubTotal = parseFloat(uiSubTotalRaw.replace('Item total: $', '')); //we replace the strings from the UI with nothing 
           
-          console.log(`Independent Auditor result:  ${calculatedSum} And for the UI: ${uiSubTotal}`);
-          expect(uiSubTotal).toBe(calculatedSum)
+          console.log(`Independent Auditor result for SubTotal:  ${calculatedSum} And for the UI subtotal: ${uiSubTotal}`);
+          expect(calculatedSum).toBeCloseTo(uiSubTotal, 2);
+
           await checkoutStep2Page.finish();//finish here
         });
+
+        test('should verify Total, which includes tax', async ({ page }) => {
+            rawStrings = await checkoutStep2Page.priceScraper();
+
+            const cleanedPrices = priceArray(rawStrings);
+            const calculatedSum = cleanedPrices.reduce((total, p) => total + p, 0);
+
+            const tax = await checkoutStep2Page.uiTax();
+            const cleanedTax = parseFloat(tax.replace(/[^0-9.]/g, ''));
+
+            const total = cleanedTax + calculatedSum;
+            
+            const uiTotalRaw = await checkoutStep2Page.uiTotal();
+            const uiTotal = parseFloat(uiTotalRaw.replace(/[^0-9.]/g, ''));
+
+            console.log(`Independent Auditor result for Total: ${total} And for the UI Total: ${uiTotal}`);
+            expect(total).toBeCloseTo(uiTotal, 2);;
+
+            await checkoutStep2Page.finish();//finish here
+        })
 
 });

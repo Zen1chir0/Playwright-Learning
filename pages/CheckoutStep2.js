@@ -19,6 +19,20 @@ class CheckoutStep2Page {
         const subTotalinUI = await this.page.locator('[data-test="subtotal-label"]').textContent();
         return subTotalinUI;
     }
+
+    async uiTax() {
+        await this.page.locator('[data-test="tax-label"]').waitFor({ state: 'visible' });
+
+        const totalTax = await this.page.locator('[data-test="tax-label"]').textContent();
+        return totalTax;
+    }
+
+        async uiTotal() {
+        await this.page.locator('[data-test="total-label"]').waitFor({ state: 'visible' });
+    
+        const totalinUI = await this.page.locator('[data-test="total-label"]').textContent();
+        return totalinUI;
+    }
 }
 
 export default CheckoutStep2Page;
